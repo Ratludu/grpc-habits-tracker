@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package habits;
+option go_package = "github.com/ratludu/grpc-habits-tracker/api";
+
+import "habit.proto";
+
+service Habits {
+  rpc CreateHabit (
+      CreateHabitRequest
+      ) returns (CreateHabitResponse);
+}
+
+message CreateHabitRequest {
+  string name = 1;
+  optional int32 weekly_frequency = 2;
+}
+
+message CreateHabitResponse {
+  Habit habit = 1;
+}

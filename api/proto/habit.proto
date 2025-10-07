@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package habits;
+option go_package = "github.com/ratludu/grpc-habits-tracker/api";
+
+message Habit {
+  string name = 1;
+  int32 weekly_frequency = 2;
+  string id = 3;
+}
+
+
+

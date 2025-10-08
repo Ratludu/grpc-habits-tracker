@@ -6,17 +6,20 @@ import (
 	"strconv"
 
 	"github.com/ratludu/grpc-habits-tracker/api"
+	"github.com/ratludu/grpc-habits-tracker/internal/database"
 	"google.golang.org/grpc"
 )
 
 type Server struct {
 	lgr Logger
+	db  *database.Database
 	api.UnimplementedHabitsServer
 }
 
-func New(lgr Logger) *Server {
+func New(lgr Logger, db *database.Database) *Server {
 	return &Server{
 		lgr: lgr,
+		db:  db,
 	}
 }
 

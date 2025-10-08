@@ -13,6 +13,7 @@ func Create(_ context.Context, h Habit) (Habit, error) {
 	if err != nil {
 		return Habit{}, err
 	}
+
 	return h, err
 }
 

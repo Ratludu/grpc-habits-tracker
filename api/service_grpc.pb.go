@@ -20,6 +20,9 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	Habits_CreateHabit_FullMethodName = "/habits.Habits/CreateHabit"
+	Habits_GetHabit_FullMethodName    = "/habits.Habits/GetHabit"
+	Habits_ListHabit_FullMethodName   = "/habits.Habits/ListHabit"
+	Habits_DeleteHabit_FullMethodName = "/habits.Habits/DeleteHabit"
 )
 
 // HabitsClient is the client API for Habits service.
@@ -27,6 +30,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type HabitsClient interface {
 	CreateHabit(ctx context.Context, in *CreateHabitRequest, opts ...grpc.CallOption) (*CreateHabitResponse, error)
+	GetHabit(ctx context.Context, in *GetHabitRequest, opts ...grpc.CallOption) (*GetHabitResponse, error)
+	ListHabit(ctx context.Context, in *ListHabitRequest, opts ...grpc.CallOption) (*ListHabitResponse, error)
+	DeleteHabit(ctx context.Context, in *DeleteHabitRequest, opts ...grpc.CallOption) (*DeleteHabitResponse, error)
 }
 
 type habitsClient struct {
@@ -47,11 +53,44 @@ func (c *habitsClient) CreateHabit(ctx context.Context, in *CreateHabitRequest, 
 	return out, nil
 }
 
+func (c *habitsClient) GetHabit(ctx context.Context, in *GetHabitRequest, opts ...grpc.CallOption) (*GetHabitResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetHabitResponse)
+	err := c.cc.Invoke(ctx, Habits_GetHabit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *habitsClient) ListHabit(ctx context.Context, in *ListHabitRequest, opts ...grpc.CallOption) (*ListHabitResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListHabitResponse)
+	err := c.cc.Invoke(ctx, Habits_ListHabit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *habitsClient) DeleteHabit(ctx context.Context, in *DeleteHabitRequest, opts ...grpc.CallOption) (*DeleteHabitResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteHabitResponse)
+	err := c.cc.Invoke(ctx, Habits_DeleteHabit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HabitsServer is the server API for Habits service.
 // All implementations must embed UnimplementedHabitsServer
 // for forward compatibility.
 type HabitsServer interface {
 	CreateHabit(context.Context, *CreateHabitRequest) (*CreateHabitResponse, error)
+	GetHabit(context.Context, *GetHabitRequest) (*GetHabitResponse, error)
+	ListHabit(context.Context, *ListHabitRequest) (*ListHabitResponse, error)
+	DeleteHabit(context.Context, *DeleteHabitRequest) (*DeleteHabitResponse, error)
 	mustEmbedUnimplementedHabitsServer()
 }
 
@@ -64,6 +103,15 @@ type UnimplementedHabitsServer struct{}
 
 func (UnimplementedHabitsServer) CreateHabit(context.Context, *CreateHabitRequest) (*CreateHabitResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateHabit not implemented")
+}
+func (UnimplementedHabitsServer) GetHabit(context.Context, *GetHabitRequest) (*GetHabitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHabit not implemented")
+}
+func (UnimplementedHabitsServer) ListHabit(context.Context, *ListHabitRequest) (*ListHabitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListHabit not implemented")
+}
+func (UnimplementedHabitsServer) DeleteHabit(context.Context, *DeleteHabitRequest) (*DeleteHabitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteHabit not implemented")
 }
 func (UnimplementedHabitsServer) mustEmbedUnimplementedHabitsServer() {}
 func (UnimplementedHabitsServer) testEmbeddedByValue()                {}
@@ -104,6 +152,60 @@ func _Habits_CreateHabit_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Habits_GetHabit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHabitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HabitsServer).GetHabit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Habits_GetHabit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HabitsServer).GetHabit(ctx, req.(*GetHabitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Habits_ListHabit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListHabitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HabitsServer).ListHabit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Habits_ListHabit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HabitsServer).ListHabit(ctx, req.(*ListHabitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Habits_DeleteHabit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteHabitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HabitsServer).DeleteHabit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Habits_DeleteHabit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HabitsServer).DeleteHabit(ctx, req.(*DeleteHabitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Habits_ServiceDesc is the grpc.ServiceDesc for Habits service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +216,18 @@ var Habits_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateHabit",
 			Handler:    _Habits_CreateHabit_Handler,
+		},
+		{
+			MethodName: "GetHabit",
+			Handler:    _Habits_GetHabit_Handler,
+		},
+		{
+			MethodName: "ListHabit",
+			Handler:    _Habits_ListHabit_Handler,
+		},
+		{
+			MethodName: "DeleteHabit",
+			Handler:    _Habits_DeleteHabit_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

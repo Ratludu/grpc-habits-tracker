@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 
 	"github.com/ratludu/grpc-habits-tracker/api"
@@ -29,6 +30,16 @@ func (s *Server) CreateHabit(ctx context.Context, request *api.CreateHabitReques
 		if errors.As(err, &invalidErr) {
 			return nil, status.Errorf(codes.Internal, "cannot save habit %v: %s", h, err.Error())
 		}
+	}
+
+	jHabit, err := json.Marshal(createdHabit)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "cannot save habit in database %v: %s", h, err.Error())
+	}
+
+	err = s.db.Set([]byte(createdHabit.ID), jHabit)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "cannot save habit in database %v: %s", h, err.Error())
 	}
 
 	s.lgr.Logf("Habit %s sucessfully registered", createdHabit.ID)

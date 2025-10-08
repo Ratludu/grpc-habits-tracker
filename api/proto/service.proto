@@ -9,6 +9,32 @@ service Habits {
   rpc CreateHabit (
       CreateHabitRequest
       ) returns (CreateHabitResponse);
+
+  rpc GetHabit (
+      GetHabitRequest
+      ) returns (GetHabitResponse);
+
+  rpc ListHabit(
+      ListHabitRequest
+      ) returns (ListHabitResponse);
+
+  rpc DeleteHabit(
+      DeleteHabitRequest
+      ) returns (DeleteHabitResponse);
+}
+
+message DeleteHabitRequest {
+  string Id = 1;
+}
+
+message DeleteHabitResponse {
+  string Status = 1;
+}
+
+message ListHabitRequest {}
+
+message ListHabitResponse {
+  repeated Habit habits = 1;
 }
 
 message CreateHabitRequest {
@@ -17,5 +43,13 @@ message CreateHabitRequest {
 }
 
 message CreateHabitResponse {
+  Habit habit = 1;
+}
+
+message GetHabitRequest {
+  string Id = 1;
+}
+
+message GetHabitResponse {
   Habit habit = 1;
 }
